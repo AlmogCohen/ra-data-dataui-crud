@@ -1,29 +1,13 @@
-import { CondOperator, QueryFilter, QuerySort, RequestQueryBuilder } from '@nestjsx/crud-request';
+import { CondOperator, QueryFilter, QuerySort, RequestQueryBuilder } from '@dataui/crud-request';
 import omitBy from 'lodash.omitby';
 import { DataProvider, fetchUtils } from 'ra-core';
 import { stringify } from 'query-string';
 
 /**
- * Maps react-admin queries to a nestjsx/crud powered REST API
+ * Maps react-admin queries to a @dataui/crud powered REST API
  *
- * @see https://github.com/nestjsx/crud
+ * @see https://github.com/gid-oss/dataui-nestjs-crud
  *
- * @example
- *
- * import React from 'react';
- * import { Admin, Resource } from 'react-admin';
- * import crudProvider from 'ra-data-nestjsx-crud';
- *
- * import { PostList } from './posts';
- *
- * const dataProvider = crudProvider('http://localhost:3000');
- * const App = () => (
- *     <Admin dataProvider={dataProvider}>
- *         <Resource name="posts" list={PostList} />
- *     </Admin>
- * );
- *
- * export default App;
  */
 
 const countDiff = (o1: Record<string, any>, o2: Record<string, any>): Record<string, any> =>
@@ -159,7 +143,7 @@ export default (apiUrl: string, httpClient = fetchUtils.fetchJson): DataProvider
       method: 'POST',
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({
-      data: { ...params.data, id: json.id },
+      data: { ...json },
     })),
 
   delete: (resource, params) =>
